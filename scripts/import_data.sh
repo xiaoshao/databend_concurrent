@@ -5,8 +5,10 @@
 #'dbgen_version','household_demographics','income_band','inventory','item','promotion ',\
 #'reason','ship_mode','store','store_returns','store_sales','test1','time_dim','warehouse ',\
 #'web_page','web_returns','web_sales','web_site')
-
-for file_name in `ls ./data/*.dat`; do
+database_host=${1}
+database_port=${2}
+pass=${3}
+for file_name in `ls ../data/*.dat`; do
   table_file=$(echo "${file_name##*/}")
 
 #  if [[ ${arr[*]} =~ ${table_file} ]]; then
@@ -17,7 +19,7 @@ for file_name in `ls ./data/*.dat`; do
 
     echo ${file_name}
 
-    curl -XPUT 'http://root:@localhost:8000/v1/streaming_load' \
+    curl -XPUT "http://zwshao:${pass}@${database_host}:${database_port}/v1/streaming_load" \
       -H "insert_sql: insert into test.${table_name} file_format=(type='CSV' skip_header=0 field_delimiter='|')" \
       -F "upload=@"${file_name}""
 
