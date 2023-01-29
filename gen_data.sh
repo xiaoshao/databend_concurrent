@@ -1,4 +1,7 @@
 #!/bin/bash
- cd ./tpc-ds/v2.11.0rc2/tools
- make -f Makefile.suite
- 
+SCALE_COUNT=${1}
+PWD=${pwd}
+cd ./tpcds-kit/tools
+make OS=MACOS
+echo ${PWD}/data
+./dsdgen -DIR ${PWD}/data -SCALE $SCALE_COUNT
