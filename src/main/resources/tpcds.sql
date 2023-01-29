@@ -33,6 +33,12 @@
 -- Contributors:
 -- Gradient Systems
 --
+drop database if exists test;
+
+create database test;
+
+use test;
+
 create table dbgen_version
 (
     dv_version                varchar(16)                   ,
