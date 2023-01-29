@@ -37,7 +37,7 @@ create table dbgen_version
 (
     dv_version                varchar(16)                   ,
     dv_create_date            date                          ,
-    dv_create_time            time                          ,
+    dv_create_time            datetime                      ,
     dv_cmdline_args           varchar(200)                  
 );
 
@@ -54,10 +54,9 @@ create table customer_address
     ca_state                  char(2)                       ,
     ca_zip                    char(10)                      ,
     ca_country                varchar(20)                   ,
-    ca_gmt_offset             decimal(5,2)                  ,
-    ca_location_type          char(20)                      ,
-    primary key (ca_address_sk)
-);
+    ca_gmt_offset             double                        ,
+    ca_location_type          char(20)
+) cluster by (ca_address_sk);
 
 create table customer_demographics
 (
@@ -69,15 +68,14 @@ create table customer_demographics
     cd_credit_rating          char(10)                      ,
     cd_dep_count              integer                       ,
     cd_dep_employed_count     integer                       ,
-    cd_dep_college_count      integer                       ,
-    primary key (cd_demo_sk)
-);
+    cd_dep_college_count      integer
+)cluster by (cd_demo_sk);
 
 create table date_dim
 (
-    d_date_sk                 integer               not null,
-    d_date_id                 char(16)              not null,
-    d_date                    date                          ,
+    d_date_sk                 integer                       ,
+    d_date_id                 char(16)                      ,
+    d_date                    datetime                      ,
     d_month_seq               integer                       ,
     d_week_seq                integer                       ,
     d_quarter_seq             integer                       ,
@@ -102,9 +100,8 @@ create table date_dim
     d_current_week            char(1)                       ,
     d_current_month           char(1)                       ,
     d_current_quarter         char(1)                       ,
-    d_current_year            char(1)                       ,
-    primary key (d_date_sk)
-);
+    d_current_year            char(1)
+)cluster by (d_date_sk);
 
 create table warehouse
 (
@@ -121,9 +118,8 @@ create table warehouse
     w_state                   char(2)                       ,
     w_zip                     char(10)                      ,
     w_country                 varchar(20)                   ,
-    w_gmt_offset              decimal(5,2)                  ,
-    primary key (w_warehouse_sk)
-);
+    w_gmt_offset              double
+)cluster by (w_warehouse_sk);
 
 create table ship_mode
 (
@@ -132,9 +128,8 @@ create table ship_mode
     sm_type                   char(30)                      ,
     sm_code                   char(10)                      ,
     sm_carrier                char(20)                      ,
-    sm_contract               char(20)                      ,
-    primary key (sm_ship_mode_sk)
-);
+    sm_contract               char(20)
+)cluster by (sm_ship_mode_sk);
 
 create table time_dim
 (
@@ -147,35 +142,32 @@ create table time_dim
     t_am_pm                   char(2)                       ,
     t_shift                   char(20)                      ,
     t_sub_shift               char(20)                      ,
-    t_meal_time               char(20)                      ,
-    primary key (t_time_sk)
-);
+    t_meal_time               char(20)
+)cluster by (t_time_sk);
 
 create table reason
 (
     r_reason_sk               integer               not null,
     r_reason_id               char(16)              not null,
-    r_reason_desc             char(100)                     ,
-    primary key (r_reason_sk)
-);
+    r_reason_desc             char(100)
+)cluster by (r_reason_sk);
 
 create table income_band
 (
     ib_income_band_sk         integer               not null,
     ib_lower_bound            integer                       ,
-    ib_upper_bound            integer                       ,
-    primary key (ib_income_band_sk)
-);
+    ib_upper_bound            integer
+)cluster by (ib_income_band_sk);
 
 create table item
 (
-    i_item_sk                 integer               not null,
-    i_item_id                 char(16)              not null,
+    i_item_sk                 integer                       ,
+    i_item_id                 char(16)                      ,
     i_rec_start_date          date                          ,
     i_rec_end_date            date                          ,
-    i_item_desc               varchar(200)                  ,
-    i_current_price           decimal(7,2)                  ,
-    i_wholesale_cost          decimal(7,2)                  ,
+    i_item_desc               char(200)                  ,
+    i_current_price           double                  ,
+    i_wholesale_cost          double                  ,
     i_brand_id                integer                       ,
     i_brand                   char(50)                      ,
     i_class_id                integer                       ,
@@ -190,79 +182,76 @@ create table item
     i_units                   char(10)                      ,
     i_container               char(10)                      ,
     i_manager_id              integer                       ,
-    i_product_name            char(50)                      ,
-    primary key (i_item_sk)
-);
+    i_product_name            char(50)
+)cluster by (i_item_sk);
 
 create table store
 (
-    s_store_sk                integer               not null,
-    s_store_id                char(16)              not null,
+    s_store_sk                integer               ,
+    s_store_id                char(16)              ,
     s_rec_start_date          date                          ,
     s_rec_end_date            date                          ,
     s_closed_date_sk          integer                       ,
-    s_store_name              varchar(50)                   ,
+    s_store_name              char(50)                   ,
     s_number_employees        integer                       ,
     s_floor_space             integer                       ,
     s_hours                   char(20)                      ,
-    s_manager                 varchar(40)                   ,
+    s_manager                 char(40)                   ,
     s_market_id               integer                       ,
-    s_geography_class         varchar(100)                  ,
-    s_market_desc             varchar(100)                  ,
-    s_market_manager          varchar(40)                   ,
+    s_geography_class         char(100)                  ,
+    s_market_desc             char(100)                  ,
+    s_market_manager          char(40)                   ,
     s_division_id             integer                       ,
-    s_division_name           varchar(50)                   ,
+    s_division_name           char(50)                   ,
     s_company_id              integer                       ,
-    s_company_name            varchar(50)                   ,
-    s_street_number           varchar(10)                   ,
-    s_street_name             varchar(60)                   ,
+    s_company_name            char(50)                   ,
+    s_street_number           char(10)                   ,
+    s_street_name             char(60)                   ,
     s_street_type             char(15)                      ,
     s_suite_number            char(10)                      ,
-    s_city                    varchar(60)                   ,
-    s_county                  varchar(30)                   ,
+    s_city                    char(60)                   ,
+    s_county                  char(30)                   ,
     s_state                   char(2)                       ,
     s_zip                     char(10)                      ,
-    s_country                 varchar(20)                   ,
-    s_gmt_offset              decimal(5,2)                  ,
-    s_tax_precentage          decimal(5,2)                  ,
-    primary key (s_store_sk)
-);
+    s_country                 char(20)                   ,
+    s_gmt_offset              double                  ,
+    s_tax_precentage          double
+)cluster by (s_store_sk);
 
 create table call_center
 (
-    cc_call_center_sk         integer               not null,
-    cc_call_center_id         char(16)              not null,
+    cc_call_center_sk         integer               ,
+    cc_call_center_id         char(16)              ,
     cc_rec_start_date         date                          ,
     cc_rec_end_date           date                          ,
     cc_closed_date_sk         integer                       ,
     cc_open_date_sk           integer                       ,
-    cc_name                   varchar(50)                   ,
-    cc_class                  varchar(50)                   ,
+    cc_name                   char(50)                   ,
+    cc_class                  char(50)                   ,
     cc_employees              integer                       ,
     cc_sq_ft                  integer                       ,
     cc_hours                  char(20)                      ,
-    cc_manager                varchar(40)                   ,
+    cc_manager                char(40)                   ,
     cc_mkt_id                 integer                       ,
     cc_mkt_class              char(50)                      ,
-    cc_mkt_desc               varchar(100)                  ,
-    cc_market_manager         varchar(40)                   ,
+    cc_mkt_desc               char(100)                  ,
+    cc_market_manager         char(40)                   ,
     cc_division               integer                       ,
-    cc_division_name          varchar(50)                   ,
+    cc_division_name          char(50)                   ,
     cc_company                integer                       ,
     cc_company_name           char(50)                      ,
     cc_street_number          char(10)                      ,
-    cc_street_name            varchar(60)                   ,
+    cc_street_name            char(60)                   ,
     cc_street_type            char(15)                      ,
     cc_suite_number           char(10)                      ,
-    cc_city                   varchar(60)                   ,
-    cc_county                 varchar(30)                   ,
+    cc_city                   char(60)                   ,
+    cc_county                 char(30)                   ,
     cc_state                  char(2)                       ,
     cc_zip                    char(10)                      ,
-    cc_country                varchar(20)                   ,
-    cc_gmt_offset             decimal(5,2)                  ,
-    cc_tax_percentage         decimal(5,2)                  ,
-    primary key (cc_call_center_sk)
-);
+    cc_country                char(20)                   ,
+    cc_gmt_offset             double                  ,
+    cc_tax_percentage         double
+)cluster by (cc_call_center_sk);
 
 create table customer
 (
@@ -280,106 +269,101 @@ create table customer
     c_birth_day               integer                       ,
     c_birth_month             integer                       ,
     c_birth_year              integer                       ,
-    c_birth_country           varchar(20)                   ,
+    c_birth_country           char(20)                   ,
     c_login                   char(13)                      ,
     c_email_address           char(50)                      ,
-    c_last_review_date_sk     integer                       ,
-    primary key (c_customer_sk)
-);
+    c_last_review_date_sk     integer
+)cluster by (c_customer_sk);
 
 create table web_site
 (
-    web_site_sk               integer               not null,
-    web_site_id               char(16)              not null,
+    web_site_sk               integer               ,
+    web_site_id               char(16)              ,
     web_rec_start_date        date                          ,
     web_rec_end_date          date                          ,
-    web_name                  varchar(50)                   ,
+    web_name                  char(50)                   ,
     web_open_date_sk          integer                       ,
     web_close_date_sk         integer                       ,
-    web_class                 varchar(50)                   ,
-    web_manager               varchar(40)                   ,
+    web_class                 char(50)                   ,
+    web_manager               char(40)                   ,
     web_mkt_id                integer                       ,
-    web_mkt_class             varchar(50)                   ,
-    web_mkt_desc              varchar(100)                  ,
-    web_market_manager        varchar(40)                   ,
+    web_mkt_class             char(50)                   ,
+    web_mkt_desc              char(100)                  ,
+    web_market_manager        char(40)                   ,
     web_company_id            integer                       ,
     web_company_name          char(50)                      ,
     web_street_number         char(10)                      ,
-    web_street_name           varchar(60)                   ,
+    web_street_name           char(60)                   ,
     web_street_type           char(15)                      ,
     web_suite_number          char(10)                      ,
-    web_city                  varchar(60)                   ,
-    web_county                varchar(30)                   ,
+    web_city                  char(60)                   ,
+    web_county                char(30)                   ,
     web_state                 char(2)                       ,
     web_zip                   char(10)                      ,
-    web_country               varchar(20)                   ,
-    web_gmt_offset            decimal(5,2)                  ,
-    web_tax_percentage        decimal(5,2)                  ,
-    primary key (web_site_sk)
-);
+    web_country               char(20)                   ,
+    web_gmt_offset            double                  ,
+    web_tax_percentage        double
+)cluster by (web_site_sk);
 
 create table store_returns
 (
     sr_returned_date_sk       integer                       ,
     sr_return_time_sk         integer                       ,
-    sr_item_sk                integer               not null,
+    sr_item_sk                integer               ,
     sr_customer_sk            integer                       ,
     sr_cdemo_sk               integer                       ,
     sr_hdemo_sk               integer                       ,
     sr_addr_sk                integer                       ,
     sr_store_sk               integer                       ,
     sr_reason_sk              integer                       ,
-    sr_ticket_number          integer               not null,
+    sr_ticket_number          integer               ,
     sr_return_quantity        integer                       ,
-    sr_return_amt             decimal(7,2)                  ,
-    sr_return_tax             decimal(7,2)                  ,
-    sr_return_amt_inc_tax     decimal(7,2)                  ,
-    sr_fee                    decimal(7,2)                  ,
-    sr_return_ship_cost       decimal(7,2)                  ,
-    sr_refunded_cash          decimal(7,2)                  ,
-    sr_reversed_charge        decimal(7,2)                  ,
-    sr_store_credit           decimal(7,2)                  ,
-    sr_net_loss               decimal(7,2)                  ,
-    primary key (sr_item_sk, sr_ticket_number)
-);
+    sr_return_amt             double                  ,
+    sr_return_tax             double                  ,
+    sr_return_amt_inc_tax     double                 ,
+    sr_fee                    double                 ,
+    sr_return_ship_cost       double                  ,
+    sr_refunded_cash          double                  ,
+    sr_reversed_charge        double                  ,
+    sr_store_credit           double                  ,
+    sr_net_loss               double
+)cluster by (sr_item_sk, sr_ticket_number);
 
 create table household_demographics
 (
-    hd_demo_sk                integer               not null,
+    hd_demo_sk                integer               ,
     hd_income_band_sk         integer                       ,
     hd_buy_potential          char(15)                      ,
     hd_dep_count              integer                       ,
-    hd_vehicle_count          integer                       ,
-    primary key (hd_demo_sk)
-);
+    hd_vehicle_count          integer
+)cluster by (hd_demo_sk);
 
 create table web_page
 (
-    wp_web_page_sk            integer               not null,
-    wp_web_page_id            char(16)              not null,
+    wp_web_page_sk            integer               ,
+    wp_web_page_id            char(16)              ,
     wp_rec_start_date         date                          ,
     wp_rec_end_date           date                          ,
     wp_creation_date_sk       integer                       ,
     wp_access_date_sk         integer                       ,
     wp_autogen_flag           char(1)                       ,
     wp_customer_sk            integer                       ,
-    wp_url                    varchar(100)                  ,
+    wp_url                    char(100)                  ,
     wp_type                   char(50)                      ,
     wp_char_count             integer                       ,
     wp_link_count             integer                       ,
     wp_image_count            integer                       ,
-    wp_max_ad_count           integer                       ,
-    primary key (wp_web_page_sk)
-);
+    wp_max_ad_count           integer
+)cluster by (wp_web_page_sk);
 
 create table promotion
 (
-    p_promo_sk                integer               not null,
-    p_promo_id                char(16)              not null,
+    p_promo_sk                integer               ,
+    p_promo_id                char(16)              ,
     p_start_date_sk           integer                       ,
     p_end_date_sk             integer                       ,
     p_item_sk                 integer                       ,
-    p_cost                    decimal(15,2)                 ,
+    p_cost                    double                 ,
     p_response_target         integer                       ,
     p_promo_name              char(50)                      ,
     p_channel_dmail           char(1)                       ,
@@ -390,40 +374,37 @@ create table promotion
     p_channel_press           char(1)                       ,
     p_channel_event           char(1)                       ,
     p_channel_demo            char(1)                       ,
-    p_channel_details         varchar(100)                  ,
+    p_channel_details         char(100)                  ,
     p_purpose                 char(15)                      ,
-    p_discount_active         char(1)                       ,
-    primary key (p_promo_sk)
-);
+    p_discount_active         char(1)
+)cluster by (p_promo_sk);
 
 create table catalog_page
 (
-    cp_catalog_page_sk        integer               not null,
-    cp_catalog_page_id        char(16)              not null,
+    cp_catalog_page_sk        integer               ,
+    cp_catalog_page_id        char(16)              ,
     cp_start_date_sk          integer                       ,
     cp_end_date_sk            integer                       ,
-    cp_department             varchar(50)                   ,
+    cp_department             char(50)                   ,
     cp_catalog_number         integer                       ,
     cp_catalog_page_number    integer                       ,
-    cp_description            varchar(100)                  ,
-    cp_type                   varchar(100)                  ,
-    primary key (cp_catalog_page_sk)
-);
+    cp_description            char(100)                  ,
+    cp_type                   char(100)
+)cluster by (cp_catalog_page_sk);
 
 create table inventory
 (
     inv_date_sk               integer               not null,
     inv_item_sk               integer               not null,
     inv_warehouse_sk          integer               not null,
-    inv_quantity_on_hand      integer                       ,
-    primary key (inv_date_sk, inv_item_sk, inv_warehouse_sk)
-);
+    inv_quantity_on_hand      integer
+)cluster by (inv_date_sk, inv_item_sk, inv_warehouse_sk);
 
 create table catalog_returns
 (
     cr_returned_date_sk       integer                       ,
     cr_returned_time_sk       integer                       ,
-    cr_item_sk                integer               not null,
+    cr_item_sk                integer               ,
     cr_refunded_customer_sk   integer                       ,
     cr_refunded_cdemo_sk      integer                       ,
     cr_refunded_hdemo_sk      integer                       ,
@@ -437,25 +418,24 @@ create table catalog_returns
     cr_ship_mode_sk           integer                       ,
     cr_warehouse_sk           integer                       ,
     cr_reason_sk              integer                       ,
-    cr_order_number           integer               not null,
+    cr_order_number           integer               ,
     cr_return_quantity        integer                       ,
-    cr_return_amount          decimal(7,2)                  ,
-    cr_return_tax             decimal(7,2)                  ,
-    cr_return_amt_inc_tax     decimal(7,2)                  ,
-    cr_fee                    decimal(7,2)                  ,
-    cr_return_ship_cost       decimal(7,2)                  ,
-    cr_refunded_cash          decimal(7,2)                  ,
-    cr_reversed_charge        decimal(7,2)                  ,
-    cr_store_credit           decimal(7,2)                  ,
-    cr_net_loss               decimal(7,2)                  ,
-    primary key (cr_item_sk, cr_order_number)
-);
+    cr_return_amount          double                  ,
+    cr_return_tax             double                  ,
+    cr_return_amt_inc_tax     double                  ,
+    cr_fee                    double                  ,
+    cr_return_ship_cost       double                  ,
+    cr_refunded_cash          double                  ,
+    cr_reversed_charge        double                 ,
+    cr_store_credit           double                  ,
+    cr_net_loss               double
+)cluster by (cr_item_sk, cr_order_number);
 
 create table web_returns
 (
     wr_returned_date_sk       integer                       ,
     wr_returned_time_sk       integer                       ,
-    wr_item_sk                integer               not null,
+    wr_item_sk                integer               ,
     wr_refunded_customer_sk   integer                       ,
     wr_refunded_cdemo_sk      integer                       ,
     wr_refunded_hdemo_sk      integer                       ,
@@ -466,26 +446,25 @@ create table web_returns
     wr_returning_addr_sk      integer                       ,
     wr_web_page_sk            integer                       ,
     wr_reason_sk              integer                       ,
-    wr_order_number           integer               not null,
+    wr_order_number           integer               ,
     wr_return_quantity        integer                       ,
-    wr_return_amt             decimal(7,2)                  ,
-    wr_return_tax             decimal(7,2)                  ,
-    wr_return_amt_inc_tax     decimal(7,2)                  ,
-    wr_fee                    decimal(7,2)                  ,
-    wr_return_ship_cost       decimal(7,2)                  ,
-    wr_refunded_cash          decimal(7,2)                  ,
-    wr_reversed_charge        decimal(7,2)                  ,
-    wr_account_credit         decimal(7,2)                  ,
-    wr_net_loss               decimal(7,2)                  ,
-    primary key (wr_item_sk, wr_order_number)
-);
+    wr_return_amt             double                  ,
+    wr_return_tax             double                  ,
+    wr_return_amt_inc_tax     double                  ,
+    wr_fee                    double                  ,
+    wr_return_ship_cost       double                  ,
+    wr_refunded_cash          double                  ,
+    wr_reversed_charge        double                  ,
+    wr_account_credit         double                  ,
+    wr_net_loss               double
+)cluster by (wr_item_sk, wr_order_number);
 
 create table web_sales
 (
     ws_sold_date_sk           integer                       ,
     ws_sold_time_sk           integer                       ,
     ws_ship_date_sk           integer                       ,
-    ws_item_sk                integer               not null,
+    ws_item_sk                integer                       ,
     ws_bill_customer_sk       integer                       ,
     ws_bill_cdemo_sk          integer                       ,
     ws_bill_hdemo_sk          integer                       ,
@@ -499,25 +478,24 @@ create table web_sales
     ws_ship_mode_sk           integer                       ,
     ws_warehouse_sk           integer                       ,
     ws_promo_sk               integer                       ,
-    ws_order_number           integer               not null,
+    ws_order_number           integer                       ,
     ws_quantity               integer                       ,
-    ws_wholesale_cost         decimal(7,2)                  ,
-    ws_list_price             decimal(7,2)                  ,
-    ws_sales_price            decimal(7,2)                  ,
-    ws_ext_discount_amt       decimal(7,2)                  ,
-    ws_ext_sales_price        decimal(7,2)                  ,
-    ws_ext_wholesale_cost     decimal(7,2)                  ,
-    ws_ext_list_price         decimal(7,2)                  ,
-    ws_ext_tax                decimal(7,2)                  ,
-    ws_coupon_amt             decimal(7,2)                  ,
-    ws_ext_ship_cost          decimal(7,2)                  ,
-    ws_net_paid               decimal(7,2)                  ,
-    ws_net_paid_inc_tax       decimal(7,2)                  ,
-    ws_net_paid_inc_ship      decimal(7,2)                  ,
-    ws_net_paid_inc_ship_tax  decimal(7,2)                  ,
-    ws_net_profit             decimal(7,2)                  ,
-    primary key (ws_item_sk, ws_order_number)
-);
+    ws_wholesale_cost         double                        ,
+    ws_list_price             double                        ,
+    ws_sales_price            double                        ,
+    ws_ext_discount_amt       double                        ,
+    ws_ext_sales_price        double                        ,
+    ws_ext_wholesale_cost     double                        ,
+    ws_ext_list_price         double                        ,
+    ws_ext_tax                double                        ,
+    ws_coupon_amt             double                        ,
+    ws_ext_ship_cost          double                        ,
+    ws_net_paid               double                        ,
+    ws_net_paid_inc_tax       double                        ,
+    ws_net_paid_inc_ship      double                        ,
+    ws_net_paid_inc_ship_tax  double                        ,
+    ws_net_profit             double
+)cluster by (ws_item_sk, ws_order_number);
 
 create table catalog_sales
 (
@@ -536,53 +514,51 @@ create table catalog_sales
     cs_catalog_page_sk        integer                       ,
     cs_ship_mode_sk           integer                       ,
     cs_warehouse_sk           integer                       ,
-    cs_item_sk                integer               not null,
+    cs_item_sk                integer                       ,
     cs_promo_sk               integer                       ,
-    cs_order_number           integer               not null,
+    cs_order_number           integer                       ,
     cs_quantity               integer                       ,
-    cs_wholesale_cost         decimal(7,2)                  ,
-    cs_list_price             decimal(7,2)                  ,
-    cs_sales_price            decimal(7,2)                  ,
-    cs_ext_discount_amt       decimal(7,2)                  ,
-    cs_ext_sales_price        decimal(7,2)                  ,
-    cs_ext_wholesale_cost     decimal(7,2)                  ,
-    cs_ext_list_price         decimal(7,2)                  ,
-    cs_ext_tax                decimal(7,2)                  ,
-    cs_coupon_amt             decimal(7,2)                  ,
-    cs_ext_ship_cost          decimal(7,2)                  ,
-    cs_net_paid               decimal(7,2)                  ,
-    cs_net_paid_inc_tax       decimal(7,2)                  ,
-    cs_net_paid_inc_ship      decimal(7,2)                  ,
-    cs_net_paid_inc_ship_tax  decimal(7,2)                  ,
-    cs_net_profit             decimal(7,2)                  ,
-    primary key (cs_item_sk, cs_order_number)
-);
+    cs_wholesale_cost         double                        ,
+    cs_list_price             double                        ,
+    cs_sales_price            double                        ,
+    cs_ext_discount_amt       double                        ,
+    cs_ext_sales_price        double                        ,
+    cs_ext_wholesale_cost     double                        ,
+    cs_ext_list_price         double                        ,
+    cs_ext_tax                double                        ,
+    cs_coupon_amt             double                        ,
+    cs_ext_ship_cost          double                        ,
+    cs_net_paid               double                        ,
+    cs_net_paid_inc_tax       double                        ,
+    cs_net_paid_inc_ship      double                        ,
+    cs_net_paid_inc_ship_tax  double                        ,
+    cs_net_profit             double
+)cluster by (cs_item_sk, cs_order_number);
 
 create table store_sales
 (
     ss_sold_date_sk           integer                       ,
     ss_sold_time_sk           integer                       ,
-    ss_item_sk                integer               not null,
+    ss_item_sk                integer                       ,
     ss_customer_sk            integer                       ,
     ss_cdemo_sk               integer                       ,
     ss_hdemo_sk               integer                       ,
     ss_addr_sk                integer                       ,
     ss_store_sk               integer                       ,
     ss_promo_sk               integer                       ,
-    ss_ticket_number          integer               not null,
+    ss_ticket_number          integer                       ,
     ss_quantity               integer                       ,
-    ss_wholesale_cost         decimal(7,2)                  ,
-    ss_list_price             decimal(7,2)                  ,
-    ss_sales_price            decimal(7,2)                  ,
-    ss_ext_discount_amt       decimal(7,2)                  ,
-    ss_ext_sales_price        decimal(7,2)                  ,
-    ss_ext_wholesale_cost     decimal(7,2)                  ,
-    ss_ext_list_price         decimal(7,2)                  ,
-    ss_ext_tax                decimal(7,2)                  ,
-    ss_coupon_amt             decimal(7,2)                  ,
-    ss_net_paid               decimal(7,2)                  ,
-    ss_net_paid_inc_tax       decimal(7,2)                  ,
-    ss_net_profit             decimal(7,2)                  ,
-    primary key (ss_item_sk, ss_ticket_number)
-);
+    ss_wholesale_cost         double                        ,
+    ss_list_price             double                        ,
+    ss_sales_price            double                        ,
+    ss_ext_discount_amt       double                        ,
+    ss_ext_sales_price        double                        ,
+    ss_ext_wholesale_cost     double                        ,
+    ss_ext_list_price         double                        ,
+    ss_ext_tax                double                        ,
+    ss_coupon_amt             double                        ,
+    ss_net_paid               double                        ,
+    ss_net_paid_inc_tax       double                        ,
+    ss_net_profit             double
+)cluster by (ss_item_sk, ss_ticket_number);
 
