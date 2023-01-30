@@ -35,14 +35,9 @@ public class QueryDatabendRunnable implements Runnable {
                 long durationNow = System.currentTimeMillis() - start;
                 this.duration += durationNow;
                 this.times++;
-
-                if (60000 - durationNow > 0) {
-                    Thread.currentThread().sleep(60000 - durationNow);
-                }
+                System.out.println(Thread.currentThread().getName() + " duration " + duration + " time " + index);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             try {
