@@ -8,7 +8,7 @@
 database_host=${1}
 database_port=${2}
 pass=${3}
-for file_name in `ls ../data/*.dat`; do
+for file_name in `ls ./data/*.dat`; do
   table_file=$(echo "${file_name##*/}")
 
 #  if [[ ${arr[*]} =~ ${table_file} ]]; then
