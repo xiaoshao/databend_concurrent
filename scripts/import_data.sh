@@ -17,8 +17,6 @@ for file_name in `ls ./data/*.dat`; do
 
     echo "$upload_sql <--- $(du -h $file_name)"
 
-    echo ${file_name}
-
     curl -XPUT "http://zwshao:${pass}@${database_host}:${database_port}/v1/streaming_load" \
       -H "insert_sql: insert into test.${table_name} file_format=(type='CSV' skip_header=0 field_delimiter='|')" \
       -F "upload=@"${file_name}""
